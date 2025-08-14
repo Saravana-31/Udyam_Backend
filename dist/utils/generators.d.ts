@@ -1,0 +1,6 @@
+export declare const generateId: () => string;
+export declare const generateRegistrationNumber: () => string;
+export declare const formatDate: (date: Date) => string;
+export declare const sanitizeString: (str: string | undefined) => string;
+export declare const getEnvVar: (key: string) => string;
+//# sourceMappingURL=generators.d.ts.map
