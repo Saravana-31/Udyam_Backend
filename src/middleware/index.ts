@@ -69,7 +69,7 @@ export const rateLimiter = (
 };
 
 // ✅ CORS configuration (type-safe with fallback)
-const frontendURL = process.env.FRONTEND_URL || "http://localhost:3000";
+const frontendURL = process.env['FRONTEND_URL'] || "http://localhost:3000";
 
 export const corsOptions = {
   origin: [frontendURL, "https://localhost:3000", "https://udyam-frontend-rho.vercel.app"],
