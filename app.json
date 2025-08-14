@@ -1,0 +1,47 @@
+{
+  "name": "Udyam Registration Backend",
+  "description": "Backend API for Udyam Registration Portal",
+  "repository": "https://github.com/your-username/udyam-registration-portal",
+  "logo": "https://your-domain.com/logo.png",
+  "keywords": ["node", "express", "typescript", "api", "udyam"],
+  "image": "heroku/nodejs",
+  "stack": "heroku-20",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-redis:mini",
+      "as": "REDIS"
+    }
+  ],
+  "env": {
+    "NODE_ENV": {
+      "description": "Node environment",
+      "value": "production"
+    },
+    "FRONTEND_URL": {
+      "description": "Frontend application URL",
+      "value": "https://your-frontend.vercel.app"
+    },
+    "RATE_LIMIT_MAX_REQUESTS": {
+      "description": "Maximum requests per window",
+      "value": "100"
+    },
+    "RATE_LIMIT_WINDOW_MS": {
+      "description": "Rate limiting window in milliseconds",
+      "value": "900000"
+    }
+  },
+  "scripts": {
+    "postdeploy": "echo 'Deployment completed successfully'"
+  }
+}
