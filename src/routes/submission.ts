@@ -21,7 +21,7 @@ router.post(
         return res.status(400).json({
           success: false,
           message: "Validation failed",
-          errors,
+          errors: errors || undefined, // ✅ prevents null error
           timestamp: new Date().toISOString(),
         })
       }
@@ -44,7 +44,7 @@ router.post(
         submittedAt: sub.submittedAt,
       }))
 
-      res.status(201).json({
+      return res.status(201).json({
         success: true,
         message: "Registration submitted successfully",
         data: {
@@ -58,7 +58,7 @@ router.post(
       })
     } catch (error) {
       console.error("Submission error:", error)
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "Internal server error during submission",
         timestamp: new Date().toISOString(),
@@ -82,7 +82,7 @@ router.get("/submissions", async (req: Request, res: Response<ApiResponse>) => {
       submittedAt: sub.submittedAt,
     }))
 
-    res.json({
+    return res.json({
       success: true,
       message: "Submissions retrieved successfully",
       data: {
@@ -93,7 +93,7 @@ router.get("/submissions", async (req: Request, res: Response<ApiResponse>) => {
     })
   } catch (error) {
     console.error("Get submissions error:", error)
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Internal server error",
       timestamp: new Date().toISOString(),
@@ -106,7 +106,7 @@ router.get("/stats", async (req: Request, res: Response<ApiResponse>) => {
   try {
     const stats = await SubmissionService.getSubmissionStats()
 
-    res.json({
+    return res.json({
       success: true,
       message: "Statistics retrieved successfully",
       data: stats,
@@ -114,7 +114,7 @@ router.get("/stats", async (req: Request, res: Response<ApiResponse>) => {
     })
   } catch (error) {
     console.error("Get stats error:", error)
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Internal server error",
       timestamp: new Date().toISOString(),
@@ -124,13 +124,13 @@ router.get("/stats", async (req: Request, res: Response<ApiResponse>) => {
 
 // GET /api/health - Health check endpoint
 router.get("/health", (req: Request, res: Response<ApiResponse>) => {
-  res.json({
+  return res.json({
     success: true,
     message: "Server is healthy",
     data: {
       uptime: process.uptime(),
       timestamp: new Date().toISOString(),
-      version: process.env.npm_package_version || "1.0.0",
+      version: process.env['npm_package_version'] || "1.0.0", // ✅ fixed TS4111
     },
     timestamp: new Date().toISOString(),
   })

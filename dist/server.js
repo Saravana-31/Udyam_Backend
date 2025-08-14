@@ -13,7 +13,7 @@ const submission_1 = __importDefault(require("./routes/submission"));
 const middleware_1 = require("./middleware");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env['PORT'] || 5000;
 app.use((0, helmet_1.default)({
     contentSecurityPolicy: {
         directives: {
@@ -28,7 +28,7 @@ app.use((0, cors_1.default)(middleware_1.corsOptions));
 app.use((0, compression_1.default)());
 app.use(express_1.default.json({ limit: "10mb" }));
 app.use(express_1.default.urlencoded({ extended: true, limit: "10mb" }));
-if (process.env.NODE_ENV === "production") {
+if (process.env['NODE_ENV'] === "production") {
     app.use((0, morgan_1.default)("combined"));
 }
 else {
@@ -62,7 +62,7 @@ app.use("*", (req, res) => {
 app.use(middleware_1.errorHandler);
 const server = app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`📝 Environment: ${process.env.NODE_ENV || "development"}`);
+    console.log(`📝 Environment: ${process.env['NODE_ENV'] || "development"}`);
     console.log(`🔗 API Base URL: http://localhost:${PORT}/api`);
 });
 process.on("SIGTERM", () => {

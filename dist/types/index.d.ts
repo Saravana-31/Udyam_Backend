@@ -25,7 +25,7 @@ export interface ApiResponse<T = any> {
     success: boolean;
     message: string;
     data?: T;
-    errors?: Record<string, string>;
+    errors?: Record<string, string> | undefined;
     timestamp: string;
 }
 export interface SubmissionRecord extends FormData {

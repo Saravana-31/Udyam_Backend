@@ -44,7 +44,9 @@ const rateLimiter = (maxRequests = 100, windowMs = 15 * 60 * 1000) => {
 };
 exports.rateLimiter = rateLimiter;
 exports.corsOptions = {
-    origin: process.env.FRONTEND_URL || ["http://localhost:3000", "https://localhost:3000"],
+    origin: process.env['FRONTEND_URL']
+        ? [process.env['FRONTEND_URL']]
+        : ["http://localhost:3000", "https://localhost:3000", "https://udyam-frontend-rho.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

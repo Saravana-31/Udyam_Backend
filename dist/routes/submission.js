@@ -13,7 +13,7 @@ router.post("/submit", (0, middleware_1.rateLimiter)(10, 15 * 60 * 1000), async 
             return res.status(400).json({
                 success: false,
                 message: "Validation failed",
-                errors,
+                errors: errors || undefined,
                 timestamp: new Date().toISOString(),
             });
         }
@@ -29,7 +29,7 @@ router.post("/submit", (0, middleware_1.rateLimiter)(10, 15 * 60 * 1000), async 
             status: sub.status,
             submittedAt: sub.submittedAt,
         }));
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             message: "Registration submitted successfully",
             data: {
@@ -44,7 +44,7 @@ router.post("/submit", (0, middleware_1.rateLimiter)(10, 15 * 60 * 1000), async 
     }
     catch (error) {
         console.error("Submission error:", error);
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal server error during submission",
             timestamp: new Date().toISOString(),
@@ -63,7 +63,7 @@ router.get("/submissions", async (req, res) => {
             status: sub.status,
             submittedAt: sub.submittedAt,
         }));
-        res.json({
+        return res.json({
             success: true,
             message: "Submissions retrieved successfully",
             data: {
@@ -75,7 +75,7 @@ router.get("/submissions", async (req, res) => {
     }
     catch (error) {
         console.error("Get submissions error:", error);
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal server error",
             timestamp: new Date().toISOString(),
@@ -85,7 +85,7 @@ router.get("/submissions", async (req, res) => {
 router.get("/stats", async (req, res) => {
     try {
         const stats = await submissionService_1.SubmissionService.getSubmissionStats();
-        res.json({
+        return res.json({
             success: true,
             message: "Statistics retrieved successfully",
             data: stats,
@@ -94,7 +94,7 @@ router.get("/stats", async (req, res) => {
     }
     catch (error) {
         console.error("Get stats error:", error);
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Internal server error",
             timestamp: new Date().toISOString(),
@@ -102,13 +102,13 @@ router.get("/stats", async (req, res) => {
     }
 });
 router.get("/health", (req, res) => {
-    res.json({
+    return res.json({
         success: true,
         message: "Server is healthy",
         data: {
             uptime: process.uptime(),
             timestamp: new Date().toISOString(),
-            version: process.env.npm_package_version || "1.0.0",
+            version: process.env['npm_package_version'] || "1.0.0",
         },
         timestamp: new Date().toISOString(),
     });

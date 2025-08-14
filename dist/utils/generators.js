@@ -12,7 +12,12 @@ const generateRegistrationNumber = () => {
 };
 exports.generateRegistrationNumber = generateRegistrationNumber;
 const formatDate = (date) => {
-    return date.toISOString().split("T")[0];
+    if (!date)
+        return "";
+    const dateObj = typeof date === "string" ? new Date(date) : date;
+    if (isNaN(dateObj.getTime()))
+        return "";
+    return dateObj.toISOString().split("T")[0] || "";
 };
 exports.formatDate = formatDate;
 const sanitizeString = (str) => {
